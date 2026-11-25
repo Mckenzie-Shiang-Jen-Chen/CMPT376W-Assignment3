@@ -1,27 +1,64 @@
-# LogLens - find all your log problems fast
+# LogLens
 
-LogLens is a really simple program that tells you what's happening in your logs. It is useful for developers, IT staff, customers, and anybody who has a computer. You don't really need to know anything about log files to get started. It finds problems in your files, so you can use it to make decisions about your system. Your data is always 100% secure.
+LogLens is a command-line Python script for counting records in a CSV log file. 
 
-## Requirements and things
+This guide is for computing students and new technical interns who have knowledge about CSV files and used a terminal, but have not used LogLens before. For the detailed setup guide, please look at the installation guide. 
 
-You need Python. Most computers already have it, and version 3.6 or later should be good enough. It works on Windows, Mac, and Linux. Other than that, there is not much to know.
+## What LogLens do
+* Read a CSV log file and print the number of records that match a log level or the total number of records.
+* Runs locally on your computer. It does not transmit, upload, or store your data outside your computer.
+* It reads but does not repair, rewrite, or otherwise modify the input CSV.
+* it does not diagnose system failures; it count records by log level. 
+
+## Requirements 
+* Python 3.10 or newer.
+* LogLens uses only the Python standard library, pip install is not required.
+
+Note: This guide use python command, however some computer the Python launcher is python3 or py instead. If python command doesn't work, try one of these instead.
 
 ## Get started
+1. Get the LogLens files from the repository guide. The installation guide will explain the process.
+2. Open a terminal in the repository root, which is the folder that contains `loglens.py`. Run all LogLens commands from this folder.
+3. Run the LogLens on the sample log and use `--level ERROR` to count its `ERROR` records. 
 
-First, get the project files from GitHub. Then install the program using `pip install log-lens` and run it by typing `loglens`. If you can't make it work, see docs/INSTALL.md. You probably won't need those instructions.
+```bash
+python loglens.py --file data/sample_logs.csv --level ERROR
+```
+Expected output:
+```text
+Records matching ERROR: 2
+```
+LogLens work as intended if the output is like the one above. 
 
 ## Using the program
+Note: `--file` is required for the CSV file to read.
 
-Run the following command after you have found the correct folder:
+Count all records in the sample by omitting `--level`:
+```bash
+python loglens.py --file data/sample_logs.csv
+```
+Expected output:
+```text
+Records matching ALL: 6
+```
 
-`loglens --input mylog.csv --severity error`
-
-The software scans your log, fixes mistakes, and shows you what went wrong. You will see a number once it is finished. You can also run it on real production files without worrying about any side effects.
+Show the valid command-line options:
+```bash
+python loglens.py --help
+```
+Note: To count the records in your own file, change the `data/sample_file.csv` into your CSV file choice and location of where the file is.
 
 ## Input format
 
-The input should be a CSV file. Log files tend to have fields describing the time and what happened, but LogLens is flexible and will work with whatever columns your monitoring system uses. A small example is included somewhere in this repository.
+LogLens expected the CSV column headers named exactly `timestamp`, `level`, `message `.
+The `level ` argument that is accepted are `INFO`, `WARN `, and `ERROR` in uppercase. 
 
-## Questions
+## Getting help and report problems
+If a command does not work:
+1. Check the troubleshooting section in installation guide
+2. Run `python loglens.py --help` to check the valid command-line.
 
-If something doesn't work, just contact the developers or create an issue. Make sure you describe the problem so somebody can help. This is a basic tool, so the instructions should be pretty obvious.
+Report the problem to the repository developers, describe what problem you ran into, what is the error message. 
+
+Note: it is important not to upload any file that contains private/sensitive logs publicly. 
+
